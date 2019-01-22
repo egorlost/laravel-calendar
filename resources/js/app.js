@@ -1,3 +1,5 @@
+require('./bootstrap');
+
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -14,7 +16,7 @@ import messaging from './mixins/messaging'
 
 Vue.use(VueAxios, axios)
 
-Vue.axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL
+Vue.axios.defaults.baseURL = 'http://api.calendar'
 
 Vue.router = router
 
@@ -24,9 +26,9 @@ Vue.use(VueAuth, {
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
     authRedirect: {name: 'login'},
     loginData: {url: '/oauth/token', method: 'POST', fetchUser: true},
-    fetchData: {url: '/users/current', method: 'GET', enabled: true},
-    refreshData: {url: '/users/current', method: 'POST', enabled: false, interval: 5},
-    logoutData: {url: '/users/current', method: 'DELETE', redirect: {name: 'login'}, makeRequest: true}
+    fetchData: {url: 'api/users/current', method: 'GET', enabled: true},
+    refreshData: {url: 'api/users/current', method: 'POST', enabled: false, interval: 5},
+    logoutData: {url: 'api/users/current', method: 'DELETE', redirect: {name: 'login'}, makeRequest: true}
 })
 
 VeeValidate.Validator.localize({ru: ru})

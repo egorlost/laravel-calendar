@@ -12,7 +12,11 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-$this->group(['middleware' => ['auth:api']], function () {
+
+Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/event_activity/data', 'CalendarController@data')->name('calendar.data');
     Route::apiResource('/event_activity', 'CalendarController');
+
+    Route::get('/users/current', 'AuthController@user');
+    Route::delete('/users/current', 'AuthController@logout');
 });

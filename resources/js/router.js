@@ -7,30 +7,30 @@ import Login from './components/Auth/Login'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'dashboard',
-      component: Dashboard,
-      meta: {
-        auth: true
-      }
-    },
-    {
-      path: '/auth/logout',
-      name: 'logout',
-      component: Logout,
-      meta: {
-        auth: true
-      }
-    },
-    {
-      path: '/auth/login',
-      name: 'login',
-      component: Login,
-      meta: { auth: false }
-    },
-  ]
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes: [
+        {
+            path: '/',
+            name: 'dashboard',
+            component: Dashboard,
+            meta: {
+                auth: true
+            }
+        },
+        {
+            path: '/auth/logout',
+            name: 'logout',
+            component: Logout,
+            meta: {
+                auth: true
+            }
+        },
+        {
+            path: '/auth/login',
+            name: 'login',
+            component: Login,
+            meta: {auth: false}
+        },
+    ]
 })

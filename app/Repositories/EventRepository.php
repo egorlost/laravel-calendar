@@ -4,14 +4,24 @@ namespace App\Repositories;
 
 use App\Contracts\Repository;
 use App\Models\EventActivity;
+use Illuminate\Database\Eloquent\Collection;
 
 class EventRepository implements Repository
 {
+    /**
+     * @var string
+     */
     protected $model = EventActivity::class;
 
-    public function calendarPeriodActivities($from, $to, $search)
+    /**
+     * @param string $from
+     * @param string $to
+     * @param string|null $search
+     * @return Collection
+     */
+    public function calendarPeriodActivities(string $from, string $to, $search): Collection
     {
-        $query = EventActivity::whereBetween('start_date', [$from, $to]);
+        $query = $this->model::whereBetween('start_date', [$from, $to]);
 
         if ($search) {
             $query->where('title', 'like', '%' . $search . '%');
@@ -20,27 +30,48 @@ class EventRepository implements Repository
         return $query->get();
     }
 
+    /**
+     * @param array $inputs
+     * @return mixed
+     */
     public function store(array $inputs)
     {
-        $model = (new $this->model)->fill($inputs);
-
-        $model->save();
-
-        return $model;
+        return (new $this->model)->fill($inputs)->save();
     }
 
+    /**
+     * @param $id
+     * @param array $inputs
+     * @return mixed
+     */
     public function update($id, array $inputs)
     {
         return $this->find($id)->fill($inputs)->save();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function destroy($id)
     {
         return $this->find($id)->delete();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function find($id)
     {
         return $this->model::findOrFail($id);
+    }
+
+    /**
+     * @return string
+     */
+    public function getModel(): string
+    {
+        return $this->model;
     }
 }

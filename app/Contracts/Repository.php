@@ -8,7 +8,7 @@ namespace App\Contracts;
 interface Repository
 {
     /**
-     * Update method
+     * Update data
      *
      * @param $id
      * @param $inputs
@@ -16,21 +16,21 @@ interface Repository
     public function update($id, array $inputs);
 
     /**
-     * Store method
+     * Store data
      *
      * @param $inputs
      */
     public function store(array $inputs);
 
     /**
-     * Get data array
+     * Destroy data
      *
      * @param $id
      */
     public function destroy($id);
 
     /**
-     * Find method
+     * Find data
      *
      * @param $id
      */

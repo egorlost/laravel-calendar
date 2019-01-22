@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\EventActivity\EventActivityCollection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\EventService;
 use \App\Http\Requests\EventActivity;
 
 class CalendarController extends Controller
 {
+    /**
+     * @var EventService
+     */
     protected $service;
 
     public function __construct(EventService $service)
@@ -17,30 +21,33 @@ class CalendarController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @param EventActivity $request
+     * @return JsonResponse
      */
-    public function index()
-    {
-        return view('event.index');
-    }
-
-    public function store(EventActivity $request)
+    public function store(EventActivity $request): JsonResponse
     {
         $store = $this->service->store($request);
 
         return response()->json($store, 201);
     }
 
-    public function update($id, EventActivity $request)
+    /**
+     * @param $id
+     * @param EventActivity $request
+     * @return JsonResponse
+     */
+    public function update($id, EventActivity $request): JsonResponse
     {
         $store = $this->service->update($id, $request);
 
         return response()->json($store);
     }
 
-    public function destroy($id)
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function destroy($id): JsonResponse
     {
         $destroy = $this->service->destroy($id);
 

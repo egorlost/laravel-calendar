@@ -8,7 +8,8 @@
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" v-model="userLogin">
+                                <input id="email" type="email" class="form-control" data-vv-name="Email" v-validate="'required|email'" v-model="userLogin">
+                                <span>{{ errors.first('email') }}</span>
                             </div>
                         </div>
 
@@ -16,7 +17,8 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" v-model="userPassword">
+                                <input id="password" type="password" class="form-control" data-vv-name="Пароль" v-validate="'required'" v-model="userPassword">
+                                <span>{{ errors.first('email') }}</span>
                             </div>
                         </div>
 
@@ -37,8 +39,10 @@
 <script>
     import auth from '../../api/auth'
     import httpCodes from 'http-status-codes'
+    import validation from '../../mixins/validation'
 
     export default {
+        mixins: [ validation ],
         data() {
             return {
                 userLogin: null,

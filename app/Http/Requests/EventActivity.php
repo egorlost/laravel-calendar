@@ -6,12 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class EventActivity extends FormRequest
 {
-    public function authorize()
+    /**
+     * @return bool
+     */
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    /**
+     * @return array
+     */
+    public function rules(): array
     {
         return [
             'title' => 'required|string|max:255',

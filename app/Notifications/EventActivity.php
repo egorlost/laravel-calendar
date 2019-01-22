@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
@@ -47,7 +46,7 @@ class EventActivity extends Notification implements ShouldQueue
      * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\BroadcastMessage
      */
-    public function toBroadcast($notifiable)
+    public function toBroadcast($notifiable): BroadcastMessage
     {
         return new BroadcastMessage([
             'eventActivity' => $this->eventActivity,

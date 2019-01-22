@@ -292,9 +292,6 @@
     import FullCalendar from 'vue-full-calendar'
     import VueSweetalert2 from 'vue-sweetalert2'
     import Vue from 'vue'
-    import axios from 'axios'
-    import Echo from 'laravel-echo'
-    import Pusher from 'pusher-js'
     import validation from '../mixins/validation'
 
     Vue.use(FullCalendar).use(VueSweetalert2)
@@ -319,7 +316,7 @@
                                 }
                             });
 
-                            axios.get('/event_activity/data', {
+                            axios.get('/api/event_activity/data', {
                                 params: {
                                     'search': this.search
                                 }
@@ -387,16 +384,8 @@
                 },
             }
         },
-        created: function () {
-            this.echo = new Echo({
-                broadcaster: 'pusher',
-                key: process.env.MIX_PUSHER_APP_KEY,
-                cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-                encrypted: true
-            });
-        },
         mounted() {
-            this.echo.private('App.User.' + this.$store.getters.user.id)
+            Echo.private('App.User.' + this.$store.getters.user.id)
                 .notification((notification) => {
                     this.$swal({
                         title: 'Reminder',
@@ -431,12 +420,12 @@
                     'title': event.title,
                 };
 
-                axios.post('/event_activity/' + event.id, data).then((response) => {
+                axios.post('/api/event_activity/' + event.id, data).then((response) => {
                     this.$refs.calendar.fireMethod('refetchEvents')
                 });
             },
             storeEventActivityForm() {
-                var url = '/event_activity';
+                var url = '/api/event_activity';
 
                 this.dataForm.start_time = moment(this.dataForm.start_hours + ':' + this.dataForm.start_minutes, 'HH:mm').format('HH:mm');
                 this.dataForm.end_time = moment(this.dataForm.end_hours + ':' + this.dataForm.end_minutes, 'HH:mm').format('HH:mm');
@@ -478,7 +467,7 @@
                 this.modalToggle();
             },
             storeDroppedData() {
-                var url = '/event_activity';
+                var url = '/api/event_activity';
 
                 axios.post(url, this.dataForm).then(response => {
                     this.$refs.calendar.fireMethod('refetchEvents')
@@ -526,7 +515,7 @@
             deleteEventActivity() {
                 this.dataForm._method = 'delete';
 
-                axios.post('/event_activity/' + this.dataForm.id, this.dataForm).then((response) => {
+                axios.post('/api/event_activity/' + this.dataForm.id, this.dataForm).then((response) => {
                     this.$refs.calendar.fireMethod('refetchEvents')
                     this.modalToggle();
                     this.resetForm();
@@ -540,8 +529,6 @@
                 Object.assign(this.$data.dataForm, this.$options.data.call(this).dataForm);
             },
             modalToggle() {
-                this.errors = [];
-
                 $('#event-activity').modal('toggle');
             },
             increment(selector, restrict, step = 1) {
@@ -556,7 +543,7 @@
             },
             validErrors(error) {
                 if (error.response.status === 422) {
-                    this.errors = error.response.data.errors
+                    // this.errors = error.response.data.errors
                 }
             }
         }
